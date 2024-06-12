@@ -3,9 +3,9 @@ import java.util.ArrayList;
 interface AccountOperations {
     int checkAccountStatus();
 
-    void makeTransfer(int amount);
+    void makeTransfer(int amount, BankAccount bankAccount);
 
-    void makePayment(int amount);
+    void makePayment(int amount, BankAccount bankAccount);
 }
 
 public class BankAccount implements AccountOperations {
@@ -26,20 +26,24 @@ public class BankAccount implements AccountOperations {
     }
 
     @Override
-    public void makeTransfer(int amount) {
+    public void makeTransfer(int amount, BankAccount bankAccount) {
         AccountOperationException exception = new AccountOperationException("There arent that many money");
         try {
             accountStatus += amount;
+            Transaction transaction = new Transaction(amount, this, bankAccount);
+            transactions.add(transaction);
             if(amount > accountStatus) {
                 throw exception;
             }
         } catch(AccountOperationException e) {
-            e.printStackTrace();
+            e.getStackTrace();
         }
     }
 
     @Override
-    public void makePayment(int amount) {
+    public void makePayment(int amount, BankAccount bankAccount) {
         accountStatus += amount;
+        Transaction transaction = new Transaction(amount, this, bankAccount);
+        transactions.add(transaction);
     }
 }

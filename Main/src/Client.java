@@ -1,6 +1,6 @@
 public class Client extends User {
     private BankAccount bankAccount;
-    private static int counter;
+    private static int counter = 0;
     private String ID;
 
     public Client(String name, String surname) {
@@ -14,5 +14,15 @@ public class Client extends User {
 
     public String getID() {
         return this.ID;
+    }
+
+    public void makeOperation(String operation, int amount, BankAccount bankAccount) {
+        if (operation.equals("checkAccountStatus")) {
+            this.bankAccount.checkAccountStatus();
+        } else if (operation.equals("makeTransfer")) {
+            this.bankAccount.makeTransfer(amount, bankAccount);
+        } else {
+            this.bankAccount.makePayment(amount, bankAccount);
+        }
     }
 }
