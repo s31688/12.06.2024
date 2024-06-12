@@ -20,5 +20,7 @@ public class Employee extends User {
         return this.ID;
     }
 
-    public void addTransaction()
+    public void addTransaction(Client client, Transaction transaction) {
+        client.getBankAccount().setTransaction(transaction);
+    }
 }

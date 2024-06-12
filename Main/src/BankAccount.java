@@ -20,6 +20,10 @@ public class BankAccount implements AccountOperations {
         return this.accountStatus;
     }
 
+    public void setTransaction(Transaction transaction) {
+        transactions.add(transaction);
+    }
+
     @Override
     public int checkAccountStatus() {
         return this.accountStatus;
@@ -32,10 +36,10 @@ public class BankAccount implements AccountOperations {
             accountStatus += amount;
             Transaction transaction = new Transaction(amount, this, bankAccount);
             transactions.add(transaction);
-            if(amount > accountStatus) {
+            if (amount > accountStatus) {
                 throw exception;
             }
-        } catch(AccountOperationException e) {
+        } catch (AccountOperationException e) {
             e.getStackTrace();
         }
     }
