@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 interface AccountOperations {
-    int checkAccountStatus();
+    double checkAccountStatus();
 
     void makeTransfer(int amount, BankAccount bankAccount);
 
@@ -9,14 +9,14 @@ interface AccountOperations {
 }
 
 public class BankAccount implements AccountOperations {
-    private int accountStatus = 0;
+    private double accountStatus = 0;
     private static ArrayList<Transaction> transactions = new ArrayList<>();
 
-    public BankAccount(int accountStatus) {
+    public BankAccount(double accountStatus) {
         this.accountStatus = accountStatus;
     }
 
-    public int getAccountStatus() {
+    public double getAccountStatus() {
         return this.accountStatus;
     }
 
@@ -25,7 +25,7 @@ public class BankAccount implements AccountOperations {
     }
 
     @Override
-    public int checkAccountStatus() {
+    public double checkAccountStatus() {
         return this.accountStatus;
     }
 
