@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 
 interface AccountOperations {
-    double checkAccountStatus();
+    void checkAccountStatus();
 
-    void makeTransfer(int amount, BankAccount bankAccount);
+    void makeTransfer(double amount, BankAccount bankAccount);
 
-    void makePayment(int amount, BankAccount bankAccount);
+    void makePayment(Transaction transaction);
 }
 
 public class BankAccount implements AccountOperations {
     private double accountStatus = 0;
-    private static ArrayList<Transaction> transactions = new ArrayList<>();
+    private final ArrayList<Transaction> transactions = new ArrayList<>();
 
     public BankAccount(double accountStatus) {
         this.accountStatus = accountStatus;
@@ -24,30 +24,42 @@ public class BankAccount implements AccountOperations {
         transactions.add(transaction);
     }
 
-    @Override
-    public double checkAccountStatus() {
-        return this.accountStatus;
+    public ArrayList<Transaction> getTransactions() {
+        return this.transactions;
     }
 
     @Override
-    public void makeTransfer(int amount, BankAccount bankAccount) {
-        AccountOperationException exception = new AccountOperationException("There arent that many money");
+    public void checkAccountStatus() {
+        System.out.println("Checking Account: " + this.getClass().getName() + " Status: " + this.accountStatus);
+    }
+
+    @Override
+    public void makeTransfer(double amount, BankAccount bankAccount) {
         try {
-            accountStatus += amount;
+            if (amount > this.accountStatus) {
+                throw new AccountOperationException("There's not enough money");
+            }
+            this.accountStatus -= amount;
             Transaction transaction = new Transaction(amount, this, bankAccount);
             transactions.add(transaction);
-            if (amount > accountStatus) {
-                throw exception;
-            }
+            bankAccount.accountStatus += amount;
+            bankAccount.setTransaction(transaction);
         } catch (AccountOperationException e) {
             e.getStackTrace();
         }
     }
 
+    public boolean checkTransaction(Transaction transaction) {
+        return this.transactions.contains(transaction);
+    }
+
     @Override
-    public void makePayment(int amount, BankAccount bankAccount) {
-        accountStatus += amount;
-        Transaction transaction = new Transaction(amount, this, bankAccount);
-        transactions.add(transaction);
+    public void makePayment(Transaction transaction) {
+        if (transaction.getOut() != null && transaction.getOut().checkTransaction(transaction)) {
+            this.accountStatus += transaction.getAmount();
+            this.transactions.add(transaction);
+        } else {
+            throw new IllegalArgumentException("There's no such transaction");
+        }
     }
 }

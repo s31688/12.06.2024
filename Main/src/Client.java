@@ -12,17 +12,23 @@ public class Client extends User {
         return this.bankAccount;
     }
 
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
     public String getID() {
         return this.ID;
     }
 
-    public void makeOperation(String operation, int amount, BankAccount bankAccount) {
-        if (operation.equals("checkAccountStatus")) {
-            this.bankAccount.checkAccountStatus();
-        } else if (operation.equals("makeTransfer")) {
-            this.bankAccount.makeTransfer(amount, bankAccount);
-        } else {
-            this.bankAccount.makePayment(amount, bankAccount);
-        }
+    public void checkAccountStatus() {
+        this.bankAccount.checkAccountStatus();
+    }
+
+    public void makeTransfer(double amount, BankAccount bankAccount) {
+        this.bankAccount.makeTransfer(amount, bankAccount);
+    }
+
+    public void makePayment(double amount) {
+        this.bankAccount.makePayment(new Transaction(amount, this.bankAccount, null));
     }
 }

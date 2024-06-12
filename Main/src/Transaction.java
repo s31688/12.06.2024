@@ -1,15 +1,15 @@
 public class Transaction {
-    private int amount;
+    private double amount;
     private BankAccount in;
     private BankAccount out;
 
-    public Transaction(int amount, BankAccount in, BankAccount out) {
+    public Transaction(double amount, BankAccount in, BankAccount out) {
         this.amount = amount;
         this.in = in;
         this.out = out;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return this.amount;
     }
 
